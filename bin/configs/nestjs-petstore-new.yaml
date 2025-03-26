@@ -1,0 +1,6 @@
+generatorName: nestjs
+outputDir: samples/server/petstore/nestjs
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/nestjs
+additionalProperties:
+  hideGenerationTimestamp: "true"
