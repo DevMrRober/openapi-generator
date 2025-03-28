@@ -117,7 +117,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
         
-        supportingFiles.add(new SupportingFile("controllers" + File.separator + "controller.mustache", "controllers", "test.controller.ts"));
+        //supportingFiles.add(new SupportingFile("controllers" + File.separator + "controller.mustache", "controllers", "test.controller.ts"));
         supportingFiles.add(new SupportingFile("modules" + File.separator + "module.mustache", "modules", "test.module.ts"));
 
         // determine Nestjs version
@@ -177,6 +177,35 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         }
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
+        }
+
+        // Generate controller files for each tag
+        //if (additionalProperties.containsKey("tags")) {
+        //    List<String> tags = (List<String>) additionalProperties.get("tags");
+        //    if (tags != null) {
+        //        for (String tag : tags) {
+        //            String controllerFilename = tag.toLowerCase(Locale.ROOT) + ".controller.ts";
+        //            supportingFiles.add(new SupportingFile(
+        //                "controllers" + File.separator + "controller.mustache",
+        //                apiPackage().replace('.', File.separatorChar),
+        //                controllerFilename
+        //            ));
+        //        }
+        //    }
+        //}
+
+        // Generate controller files for each path
+        if (openAPI != null && openAPI.getPaths() != null) {
+            Map<String, io.swagger.v3.oas.models.PathItem> paths = openAPI.getPaths();
+            for (String path : paths.keySet()) {
+                String sanitizedPath = path.replace("/", "_").replace("{", "").replace("}", "").toLowerCase(Locale.ROOT);
+                String controllerFilename = sanitizedPath + ".controller.ts";
+                supportingFiles.add(new SupportingFile(
+                    "controllers" + File.separator + "controller.mustache",
+                    "controllers",
+                    controllerFilename
+                ));
+            }
         }
     }
 
