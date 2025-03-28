@@ -65,23 +65,18 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportsMultipleInheritance = true;
 
         embeddedTemplateDir = templateDir = "typescript-nestjs-server";
-        modelTemplateFiles.put("model.mustache", ".ts");
-        apiTemplateFiles.put("api.service.mustache", ".ts");
+        modelTemplateFiles.put("models" + File.separator + "model.mustache", ".ts");
+        apiTemplateFiles.put("controllers" + File.separator + "controller.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");
         typeMapping.put("file", "Blob");
-        apiPackage = "api";
-        modelPackage = "model";
+        apiPackage = "controllers";
+        modelPackage = "models";
 
         reservedWords.addAll(Arrays.asList("from", "headers"));
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY,
-                "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
-                "Setting this property to true will generate interfaces next to the default class implementations.",
-                false));
-        this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
-                "Use discriminators to create tagged unions instead of extending interfaces.",
-                this.taggedUnions));
+        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", false));
+        this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS, "Use discriminators to create tagged unions instead of extending interfaces.", this.taggedUnions));
         this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0", "Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0", "Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
@@ -111,10 +106,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public void processOpts() {
         super.processOpts();
-        supportingFiles.add(
-                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles
-                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+        supportingFiles.add(new SupportingFile("models" + File.separator + "models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
+        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
@@ -123,6 +116,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        
+        supportingFiles.add(new SupportingFile("services" + File.separator + "service.mustache", "services", "test.service.ts"));
+        supportingFiles.add(new SupportingFile("modules" + File.separator + "module.mustache", "modules", "test.module.ts"));
 
         // determine Nestjs version
         SemVer nestVersion;
@@ -421,7 +417,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public String toApiFilename(String name) {
         if (name.length() == 0) {
-            return "default.service";
+            return "default.controller";
         }
         return this.convertUsingFileNamingConvention(name) + serviceFileSuffix;
     }

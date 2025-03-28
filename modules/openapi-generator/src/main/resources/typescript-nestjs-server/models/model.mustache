@@ -12,6 +12,6 @@ import { {{classname}} } from './{{filename}}';
  * {{{.}}}
  */
 {{/description}}
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#isAlias}}{{>modelAlias}}{{/isAlias}}{{^isAlias}}{{#taggedUnions}}{{>modelTaggedUnion}}{{/taggedUnions}}{{^taggedUnions}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/taggedUnions}}{{/isAlias}}{{/isEnum}}
+{{#isEnum}}{{>models/modelEnum}}{{/isEnum}}{{^isEnum}}{{#isAlias}}{{>models/modelAlias}}{{/isAlias}}{{^isAlias}}{{#taggedUnions}}{{>models/modelTaggedUnion}}{{/taggedUnions}}{{^taggedUnions}}{{#oneOf}}{{#-first}}{{>models/modelOneOf}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>models/modelGeneric}}{{/oneOf}}{{/taggedUnions}}{{/isAlias}}{{/isEnum}}
 {{/model}}
 {{/models}}

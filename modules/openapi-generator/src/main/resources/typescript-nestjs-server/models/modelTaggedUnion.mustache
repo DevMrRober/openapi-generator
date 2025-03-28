@@ -13,9 +13,9 @@ export interface {{classname}} { {{>modelGenericAdditionalProperties}}
     {{#hasSanitizedName}}'{{{baseName}}}'{{/hasSanitizedName}}{{^hasSanitizedName}}{{{name}}}{{/hasSanitizedName}}{{^required}}?{{/required}}: {{#discriminatorValue}}'{{.}}'{{/discriminatorValue}}{{^discriminatorValue}}{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{/discriminatorValue}}{{#isNullable}} | null{{/isNullable}};
 {{/allVars}}
 }
-{{>modelGenericEnums}}
+{{>models/modelGenericEnums}}
 {{/parent}}
 {{^parent}}
-{{>modelGeneric}}
+{{>models/modelGeneric}}
 {{/parent}}
 {{/discriminator}}
