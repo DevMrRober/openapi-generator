@@ -66,10 +66,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
 
         embeddedTemplateDir = templateDir = "typescript-nestjs-server";
         modelTemplateFiles.put("models" + File.separator + "model.mustache", ".ts");
-        apiTemplateFiles.put("controllers" + File.separator + "controller.mustache", ".ts");
+        apiTemplateFiles.put("services" + File.separator + "service.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");
         typeMapping.put("file", "Blob");
-        apiPackage = "controllers";
+        apiPackage = "services";
         modelPackage = "models";
 
         reservedWords.addAll(Arrays.asList("from", "headers"));
@@ -117,7 +117,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
         
-        supportingFiles.add(new SupportingFile("services" + File.separator + "service.mustache", "services", "test.service.ts"));
+        supportingFiles.add(new SupportingFile("controllers" + File.separator + "controller.mustache", "controllers", "test.controller.ts"));
         supportingFiles.add(new SupportingFile("modules" + File.separator + "module.mustache", "modules", "test.module.ts"));
 
         // determine Nestjs version
