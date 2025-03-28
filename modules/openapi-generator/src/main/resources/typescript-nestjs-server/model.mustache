@@ -1,10 +1,11 @@
 {{>licenseInfo}}
+import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray, IsBoolean, IsDate, IsEnum, IsInt, IsUUID, IsEmail, IsUrl, IsPhoneNumber, IsPositive, IsNegative, Min, Max, MinLength, MaxLength, Matches, ValidateNested } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 {{#models}}
 {{#model}}
 {{#tsImports}}
 import { {{classname}} } from './{{filename}}';
 {{/tsImports}}
-
 
 {{#description}}
 /**

@@ -1,10 +1,67 @@
-export interface {{classname}}{{#allParents}}{{#-first}} extends {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/allParents}} { {{>modelGenericAdditionalProperties}}
-{{#vars}}
-    {{#description}}
-    /**
-     * {{{.}}}
-     */
-    {{/description}}
+export class {{classname}}{{#allParents}}{{#-first}} extends {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/allParents}} { {{>modelGenericAdditionalProperties}}
+    {{#vars}}
+    
+    {{#isString}}
+    @IsString()
+    {{/isString}}
+    {{#isBoolean}}
+    @IsBoolean()
+    {{/isBoolean}}
+    {{#isDate}}
+    @IsDate()
+    {{/isDate}}
+    {{#isNumber}}
+    @IsNumber()
+    {{/isNumber}}
+    {{#isArray}}
+    @IsArray()
+    {{/isArray}}
+    {{#maxLength}}
+    @MaxLength({{maxLength}})
+    {{/maxLength}}
+    {{#minLength}}
+    @MinLength({{minLength}})
+    {{/minLength}}
+    {{#required}}
+    @IsNotEmpty()
+    {{/required}}
+    {{^required}}
+    @IsOptional()
+    {{/required}}
+    {{#pattern}}
+    @Matches(new RegExp('{{pattern}}')) 
+    {{/pattern}}
+    {{#isEnum}}
+    @IsEnum({{{datatypeWithEnum}}}) 
+    {{/isEnum}}    
+    {{^required}}
+    @ApiPropertyOptional({ 
+    {{/required}}
+    {{#required}}
+    @ApiProperty({ 
+    {{/required}}
+        {{#description}}
+        description: '{{description}}',
+        {{/description}}
+        {{#example}}
+        example: '{{{example}}}',
+        {{/example}}
+        {{#required}}
+        required: true,
+        {{/required}}
+        {{^required}}
+        required: false,
+        {{/required}}
+        {{#maxLength}}
+        maxLength: {{maxLength}},
+        {{/maxLength}}
+        {{#minLength}}
+        minLength: {{minLength}},
+        {{/minLength}}
+        {{#pattern}}
+        pattern: '{{pattern}}',
+        {{/pattern}}
+    })
     {{#isReadOnly}}readonly {{/isReadOnly}}{{#hasSanitizedName}}'{{{baseName}}}'{{/hasSanitizedName}}{{^hasSanitizedName}}{{{name}}}{{/hasSanitizedName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
-{{/vars}}
+    {{/vars}}
 }{{>modelGenericEnums}}
